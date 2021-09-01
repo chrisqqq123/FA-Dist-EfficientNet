@@ -97,10 +97,10 @@ B0 | 73.19 |76.16 |9.29/16.15  |4.1M/0.38G|
 ------|----------|----------|----------|----    
 B0 with FA  | 73.45 | 78.18  |23.58/40.00  | 4.1M/0.38G|
 
-|  表头   | 表头  |
-|  ----  | ----  |
-| 单元格  | 单元格 |
-| 单元格  | 单元格 |
+|  Models | accuracy  | accuracy  | acc at 1st/2nd epoch  |Pa/Fl |
+|  ----  | ----  |  ----  |----  |----  |
+| 单元格  | 单元格 |----  |----  |----  |
+| 单元格  | 单元格 |----  |----  |----  |
 ### 4. License
 By downloading this software you acknowledge that you read and agreed all the
 terms in the `LICENSE` file.
