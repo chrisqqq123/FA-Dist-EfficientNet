@@ -10,9 +10,10 @@ and [Jack xin] jack.xin@uci.edu
 
 
 ### 1. Introduction
-This is a pytorch training script for light weight network on CIFAR-100. We aim to participate in the MicroNet Chanllenge hosted at NeurIPS 2019. Our solution is based on label refinery (https://arxiv.org/abs/1805.02641), EfficientNet (https://arxiv.org/pdf/1905.11946.pdf) and additive margin softmax loss (https://arxiv.org/pdf/1801.05599.pdf).
+This is a pytorch training script for light weight network on CIFAR-100 with FA loss help distil the student network. Our solution is based on label refinery (https://arxiv.org/abs/1805.02641), EfficientNet (https://arxiv.org/pdf/1905.11946.pdf) and additive margin softmax loss (https://arxiv.org/pdf/1801.05599.pdf).
 
-We propose two models, EfficientNet-ex and EfficientNet-exx, both adapted from EfficientNet. We modified the models to meet the input size of 32x32 and replaced the cross-entropy with additive margin softmax loss with s=5.0 and m=0.0. We also enlarged our dataset with different transformations of the original CIFAR-100, without using any external data.
+The Feature Affinity loss is added to the objective loss funtion to help feature learning for the student model. The FA loss is defined as:
+FA(A,B)=||A'A-B'B||.
 
 
 ### 2. Usage
