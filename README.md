@@ -13,7 +13,7 @@ and [Jack xin] jack.xin@uci.edu
 This is a pytorch training script for light weight network on CIFAR-100 with FA loss help distil the student network. Our solution is based on label refinery (https://arxiv.org/abs/1805.02641), EfficientNet (https://arxiv.org/pdf/1905.11946.pdf) and additive margin softmax loss (https://arxiv.org/pdf/1801.05599.pdf).
 
 The Feature Affinity loss is added to the objective loss funtion to help feature learning for the student model. The FA loss is defined as:
-FA(A,B)=||A'A-B'B||.
+FA(A,B)=||A'A-B'B||. Here A and B are nomalized reshaped feature maps of the teacher and student models, A,B are of the shape NxC where N=HxW is the number of pixels in the feature map and C is the channel number, and each row vector in A or B is a unit vector. ||* || here is a 1-norm.
 
 
 ### 2. Usage
