@@ -1,4 +1,6 @@
-### MicroNet-CIFAR100: *EfficientNet-ex(x) with Angleloss and Label Refinery*
+### FA_Distillation EfficientNet-ex(x) with Angleloss and Label Refinery*
+
+Based on MicroNet-CIFAR100: *EfficientNet-ex(x) with Angleloss and Label Refinery*(https://github.com/madokaminami/UCI-CIFAR100)
 By [Biao Yang] biaoy1@uci.edu,
 [Fanghui Xue] fanghuix@uci.edu,
 [Jiancheng Lyu] jianlyu@qti.qualcomm.com,
@@ -82,109 +84,30 @@ madds = compute_madd(module, input[0], output, mul_factor = 0.5)
 
 ### 3. Parameter and Operation Details
 #### EfficientNet-ex model:
-* Count multiplication operations as 1/2 operation.
 
-Total params: 2,793,064;
-Trainable params: 2,773,064;
-Non-trainable params: 20,000;
-Total FLOPs: 251,891,224;
-Total Madds: 382,885,052.0.
+FA loss experiments:
+We test FA loss on EfficientNet on Cifar-100 dataset. We first train EfficientNet-B3. Then we use EfficientNet-B3 to help training a smaller network EfficientNet-B0 with/without FA loss. Here as the task is different from that in \cite{wang2020dual}, we do not add extra 1x1 Conv before implementing the FA loss. The FA loss is adding before the MBConvBlock with out channel number of 112. And to make sure the feature maps having the same size, we let EfficientNet-B3's feature map downsample to the same size as  EfficientNet-B0's.
 
-Input size (MB): 0.01;
-Forward/backward pass size (MB): 42.61;
-Params size (MB): 2.66;
-Estimated Total Size (MB): 45.28;
-FLOPs size (GB): 0.25;
-Madds size (GB): 0.38.
-
-* Count multiplication as 1 operation.
-
-Total params: 2,793,064;
-Trainable params: 2,773,064;
-Non-trainable params: 20,000;
-Total FLOPs: 251,891,224;
-Total Madds: 512,835,116.
-
-Input size (MB): 0.01;
-Forward/backward pass size (MB): 42.61;
-Params size (MB): 2.66;
-Estimated Total Size (MB): 45.28;
-FLOPs size (GB): 0.25;
-Madds size (GB): 0.51.
+\begin{table}[H]
+	\centering
+	\caption{Comparison of adding FA loss. B3 as teacher, B0 as student.}\label{FA}
+	\begin{tabular}{ccccc}
+		\toprule  
+		\textbf{Models}& accuracy& accuracy & acc at 1st/2nd epoch& Pa/Fl\\ 
+		\midrule 
+		B3 & 72.59 & 80.54(refined)& - & 10.5M/0.97G\\
+		\midrule 
+		B0 & 73.19 & 76.16& 9.29/16.15 & 4.1M/0.38G\\ 
+		\midrule 
+		B0 with FA & 73.45 & 78.18 & 23.58/40.00 & 4.1M/0.38G\\ 
+		\toprule  
+		\end{tabular}
+\end{table}
 
 
-#### EfficientNet-exx model:
-* Count multiplication operations as 1/2 operation.
 
-Total params: 2,418,650;
-Trainable params: 2,398,650;
-Non-trainable params: 20,000;
-Total FLOPs: 232,355,234;
-Total Madds: 353,361,693.0.
-
-Input size (MB): 0.01;
-Forward/backward pass size (MB): 40.65;
-Params size (MB): 2.31;
-Estimated Total Size (MB): 42.97;
-FLOPs size (GB): 0.23;
-Madds size (GB): 0.35.
-
-* Count multiplication as 1 operation.
-
-Total params: 2,418,650;
-Trainable params: 2,398,650;
-Non-trainable params: 20,000;
-Total FLOPs: 232,355,234;
-Total Madds: 473,373,028.
-
-Input size (MB): 0.01;
-Forward/backward pass size (MB): 40.65;
-Params size (MB): 2.31;
-Estimated Total Size (MB): 42.97;
-FLOPs size (GB): 0.23;
-Madds size (GB): 0.47.
-
-
-### 4. Score
-#### EfficientNet-ex: 0.074762
-EfficientNet-ex with Angleloss and Label Refinery:
-Accuracy: 80.12% (efficientnet_ex.pytar)
-Parameter number: 2,793,064
-Total operations: 382,885,052.0
-
-WideResNet-28-10
-Parameter number: 36.5M
-Total operations: 10.49B
-
-*Scoring:*
-
-Since no quantization is used, we count all parameters as 16-bit and 1 multiplication operation as 1/2 operation:
-(0.5 x 2,793,064)/36.5M + 382,885,052.0/10.49B = **0.074762**
-
-*Count all parameters as 16-bit and 1 multiplication operation as 1 operation:
-2,793,064/36.5M + 512,835,116/10.49B = 0.12541
-
-
-#### EfficientNet-exx: 0.066818
-EfficientNet-exx with Angleloss and Label Refinery:
-Accuracy: 80.14% (efficientnet_exx.pytar)
-Parameter number: 2,418,650
-Total operations: 353,361,693.0
-
-WideResNet-28-10
-Parameter number: 36.5M
-Total operations: 10.49B
-
-*Scoring:*
-
-Since no quantization is used, we count all parameters as 16-bit and 1 multiplication operation as 1/2 operation:
-(0.5 x 2,418,650)/36.5M + 353,361,693.0/10.49B = **0.066818**
-
-*Count all parameters as 16-bit and 1 multiplication operation as 1 operation:
-2,418,650/36.5M + 473,373,028/10.49B = 0.11139
-
-### 5. License
+### 4. License
 By downloading this software you acknowledge that you read and agreed all the
 terms in the `LICENSE` file.
 
-Oct 11th, 2019
+Sep 1st, 2021
