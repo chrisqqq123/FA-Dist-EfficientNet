@@ -28,9 +28,8 @@ Before running the code, make sure the data has been downloaded.
 
 Fisrt, train EfficientNet-B3 with default parameters and save the model with the highest test accuracy. Usually the model can achieve test accuracy above 79%.
 Next, retrain the EfficientNet-B3 with the refined labels of the saved model. After the second training of EfficientNet-B3, it can achieve accuracy above 80%.
-Then train EfficientNet-B0 with the refined labels of EfficientNet-B3, and finally train EfficientNet-ex with the refined labels of EfficientNet-B0.
-
-We also test on a even smaller network named EfficientNet-exx with the refined labels of EfficientNet-B0. We trained several EfficientNet-exx models and the best model achieved test accuracy above 80%.
+Then train EfficientNet-B0 with the refined labels of EfficientNet-B3.
+The FA loss is already included during the training, you may need to comment it if a orginal training process is needed.
 
 Some basic settings: 
 batch size: 128, number of epochs: 70, learning rate: (1-25: 0.07, 26-50: 0.007, 51-65: 0.0007, 66-70: 0.00007), GPU: two GTX 1080 Ti GPUs.
@@ -47,22 +46,6 @@ python train.py --model efficientnet_b3 --label-refinery-model efficientnet_b3 -
 ```
 python train.py --model efficientnet_b0 --label-refinery-model efficientnet_b3 --label-refinery-state-file (path to best model_state.pytar) --s (default 5.0) --coslinear True
 ```
-4. a). Train EfficientNet-ex with refined labels of EfficientNet-B0:
-```
-python train.py --model efficientnet_ex --label-refinery-model efficientnet_b0 --label-refinery-state-file (path to best model_state.pytar) --s (default 5.0) --coslinear True
-```
-4. b). Train EfficientNet-exx with refined labels of EfficientNet-B0:
-```
-python train.py --model efficientnet_exx --label-refinery-model efficientnet_b0 --label-refinery-state-file (path to best model_state.pytar) --s (default 5.0) --coslinear True
-```
-
-#### Our trained models
-In the "checkpoints" file, we provide our trained models for each step. 
-1. "model_state_b3.pytar" is the best model in step 1, used as the label-refinery model to train EfficientNet_B3 in step 2. 
-2. "model_state_b3_rfn.pytar" is the best model in step 2, used as the label-refinery model to train EfficientNet_B0 in step 3. 
-3. "model_state_b0.pytar" is the best model in step 3, used as the label-refinery model to train EfficientNet_ex(x) in step 4. 
-4. "model_state_ex.pytar" is the best model in the step 4.a), which achieves a test accuracy of 80.12%. 
-4. "model_state_exx.pytar" is the best model in the step 4.b), which achieves a test accuracy of 80.14%. 
 
 
 #### Test models
