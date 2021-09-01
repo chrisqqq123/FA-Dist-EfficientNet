@@ -92,9 +92,7 @@ Comparison of adding FA loss. B3 as teacher, B0 as student
 Models | accuracy |accuracy |acc at 1st/2nd epoch |Pa/Fl
 :-----:|:--------:|:-------:|:-------------------:|:---:|
 B3 | 72.59 |80.54(refined) |-  |10.5M/0.97G|
-------|----------|----------|----------|----    
 B0 | 73.19 |76.16 |9.29/16.15  |4.1M/0.38G|
-------|----------|----------|----------|----    
 B0 with FA  | 73.45 | 78.18  |23.58/40.00  | 4.1M/0.38G|
 
 |  Models | accuracy  | accuracy  | acc at 1st/2nd epoch  |Pa/Fl |
