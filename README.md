@@ -89,16 +89,12 @@ FA loss experiments:
 We test FA loss on EfficientNet on Cifar-100 dataset. We first train EfficientNet-B3. Then we use EfficientNet-B3 to help training a smaller network EfficientNet-B0 with/without FA loss. Here as the task is different from that in \cite{wang2020dual}, we do not add extra 1x1 Conv before implementing the FA loss. The FA loss is adding before the MBConvBlock with out channel number of 112. And to make sure the feature maps having the same size, we let EfficientNet-B3's feature map downsample to the same size as  EfficientNet-B0's.
 
 Comparison of adding FA loss. B3 as teacher, B0 as student
-Models | accuracy |accuracy |acc at 1st/2nd epoch |Pa/Fl
-:-----:|:--------:|:-------:|:-------------------:|:---:|
-B3 | 72.59 |80.54(refined) |-  |10.5M/0.97G|
-B0 | 73.19 |76.16 |9.29/16.15  |4.1M/0.38G|
-B0 with FA  | 73.45 | 78.18  |23.58/40.00  | 4.1M/0.38G|
 
 |  Models | accuracy  | accuracy  | acc at 1st/2nd epoch  |Pa/Fl |
 |  ----  | ----  |  ----  |----  |----  |
-| 单元格  | 单元格 |----  |----  |----  |
-| 单元格  | 单元格 |----  |----  |----  |
+| B3   | 72.59 | 80.54(refined)   |- |10.5M/0.97G  |
+| B0  | 73.19 |76.16  |9.29/16.15  |4.1M/0.38G |
+| B0 with FA   | 73.45 | 78.18   |23.58/40.00  |4.1M/0.38G |
 ### 4. License
 By downloading this software you acknowledge that you read and agreed all the
 terms in the `LICENSE` file.
