@@ -29,7 +29,8 @@ Before running the code, make sure the data has been downloaded.
 Fisrt, train EfficientNet-B3 with default parameters and save the model with the highest test accuracy. Usually the model can achieve test accuracy above 79%.
 Next, retrain the EfficientNet-B3 with the refined labels of the saved model. After the second training of EfficientNet-B3, it can achieve accuracy above 80%.
 Then train EfficientNet-B0 with the refined labels of EfficientNet-B3.
-The FA loss is already included during the training, you may need to comment it if a orginal training process is needed.
+
+The FA loss is already included during the training, you may need to let "locfaloss = 0" at line 138 in "refinery_loss.py", if an orginal training process is needed.
 
 Some basic settings: 
 batch size: 128, number of epochs: 70, learning rate: (1-25: 0.07, 26-50: 0.007, 51-65: 0.0007, 66-70: 0.00007), GPU: two GTX 1080 Ti GPUs.
