@@ -65,9 +65,10 @@ def test_for_one_epoch(model, loss, test_loader, epoch_number):
             ########## refine or not  #####
             if len(outputs) == 2:
                 loss_output = loss(outputs[0], labels)
+                outputs = outputs[0]
             else:
                 loss_output = loss(outputs, labels)
-            outputs = outputs[0]
+            
             ###############################
 #             loss_output = loss(outputs, labels)
 
