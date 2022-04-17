@@ -62,7 +62,14 @@ def test_for_one_epoch(model, loss, test_loader, epoch_number):
         # Forward pass without computing gradients.
         with torch.no_grad():
             outputs = model(images)
-            loss_output = loss(outputs, labels)
+            ########## refine or not  #####
+            if len(outputs) == 2:
+                loss_output = loss(outputs[0], labels)
+            else:
+                loss_output = loss(outputs, labels)
+            outputs = outputs[0]
+            ###############################
+#             loss_output = loss(outputs, labels)
 
         # Sometimes loss function returns a modified version of the output,
         # which must be used to compute the model accuracy.
