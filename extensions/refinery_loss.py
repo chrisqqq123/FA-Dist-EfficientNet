@@ -97,6 +97,38 @@ class RefineryLoss(loss._Loss):
 
         return  loss
     
+    def fast_fa_loss(self, feat, ref_feat):
+        batch_size, ch, h, w = feat.size(0), feat.size(1), feat.size(2), feat.size(3)
+
+        # generating random vector  (HW) x 1
+        vec = torch.randn(h*w, 1).unsqueeze(0).repeat(batch_size,1,1).cuda()
+        # print('@@@',vec.size())
+        # print('###', vec[0:3,0:3,0:3])
+
+        # print(feat.size(), ref_feat.size())
+        feat = feat.view(batch_size, ch, -1)  # [batch, ch, HW]
+        norm_feat = feat.norm(p=2,dim=1).unsqueeze(1)
+        feat = torch.div(feat, norm_feat)
+        tran_feat = feat.permute(0,2,1)    # [batch, HW, ch]
+
+        # ft_map = torch.matmul(tran_feat,feat)
+        ft_map = torch.matmul(tran_feat, torch.matmul(feat, vec) )
+        # print(ft_map.size())
+
+        ref_feat = F.interpolate(ref_feat, size=(h,w),mode='bilinear', align_corners=True)
+        # print(feat.size(), ref_feat.size(1))
+        ref_feat = ref_feat.view(batch_size, ref_feat.size(1), -1)
+        norm_ref_feat = ref_feat.norm(p=2,dim=1).unsqueeze(1)
+        ref_feat = torch.div(ref_feat, norm_ref_feat)
+        tran_ref_feat = ref_feat.permute(0,2,1)
+
+        # refft_map = torch.matmul(tran_ref_feat,ref_feat)
+        refft_map = torch.matmul(tran_ref_feat, torch.matmul(ref_feat, vec) )
+
+        loss = (ft_map-refft_map).norm(p=1)/(h*h*w*w)
+
+        return  loss
+    
     def forward(self, output, target):
         if not self.training:
             # Loss is normal cross entropy loss between the model output and the
@@ -133,10 +165,17 @@ class RefineryLoss(loss._Loss):
             cross_entropy_loss = cross_entropy_loss.sum()
         total_loss = cross_entropy_loss
         ###### add FA loss ###########
+        # regular FA
         # faloss = self.fa_loss(inner_feature, refined_feature)
         # total_loss += faloss
-        locfaloss = self.loc_fa_loss(inner_feature, refined_feature)
-        total_loss += locfaloss
+
+        # loc FA
+        # locfaloss = self.loc_fa_loss(inner_feature, refined_feature)
+        # total_loss += locfaloss
+
+        # Fast FA
+        fastfaloss = self.fast_fa_loss(inner_feature, refined_feature)
+        total_loss += fastfaloss
         ##############################
 
 
