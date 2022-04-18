@@ -26,6 +26,19 @@ def _create_single_cpu_model(model_name, state_file=None, cosln=False):
     model = model_class(num_classes=100, coslinear=cosln)
     if state_file is not None:
         model.load_state_dict(torch.load(state_file))
+        ##########################
+        ## if use pretrained B3
+#         state_ls = torch.load(state_file)
+#         new_state = {}
+#         for m,v in state_ls.items():
+#             s = m.split('.')
+#             if int(s[1]) > 13:
+#                 s[0] = 'features_2'
+#                 s[1] = str(int(s[1])-14)
+#                 m = '.'.join(s)
+#             new_state[m] = v
+#         model.load_state_dict(new_state)
+        ##########################
     return model
 
 
