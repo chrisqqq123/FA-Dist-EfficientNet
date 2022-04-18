@@ -174,8 +174,8 @@ class RefineryLoss(loss._Loss):
         # total_loss += locfaloss
 
         # Fast FA
-        fastfaloss = self.fast_fa_loss(inner_feature, refined_feature)
-        total_loss += fastfaloss
+        # fastfaloss = self.fast_fa_loss(inner_feature, refined_feature)
+        # total_loss += fastfaloss
         ##############################
 
 
